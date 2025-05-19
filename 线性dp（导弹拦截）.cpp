@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+int er_fen(int x[],int y){
+    int l=0,r=100010;
+    while(l<r-1){
+        int mid=(l+r)>>1;
+        if(x[mid]>y){
+            l=mid;
+        }
+        else{
+            r=mid;
+        }
+    }
+    return l;
+}
+int f[100100],n,a[100100];
+int main(){
+    while(cin>>a[++n]){}
+    n--;
+    f[1]=a[1];
+    int len=1;
+    for(int i=2;i<=n;i++){
+        if(a[i]<=f[len]){
+            f[++len]=a[i];
+        }
+        else{
+            int j=er_fen(f,a[i]);
+            f[j+1]=a[i];
+        }
+    }
+    cout<<len<<endl;
+    int ans=0,cut=0;
+    memset(f,-1,sizeof(f));
+    for(int i=1;i<=n;i++){
+        int j=er_fen(f,a[i]);
+        if(f[j]<a[i]){
+            f[++cut]=a[i];
+            ans++;
+        }
+        f[j]=a[i];
+    }
+    cout<<ans<<endl;
+    return 0;
+}
